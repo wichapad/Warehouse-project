@@ -1,0 +1,51 @@
+button {
+    font-size: 16px;
+    font-weight: 800;
+    padding: 0.8rem;
+    cursor: pointer;
+    background-color: rgba(81, 226, 255, 1);
+    outline: none;
+    border: none;
+}
+
+
+.sidebar_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255);
+    height: 100vh;
+    text-align: center;
+}
+
+.sidebar_header {
+    padding: 1.2rem 0;
+    font-size: 14px;
+}
+
+.sidebar_menu {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+
+.sidebar_menu button {
+    margin: 0.2rem 0;
+}
+
+.sidebar_logout {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(57, 198, 246);
+    padding: 1rem;
+}
+
+.sidebar_logout p {
+    font-weight: 700;
+    padding: 0.5rem 0;
+}
+
+.sidebar_logout button {
+    font-size: 14px;
+    font-weight: 800;
+}

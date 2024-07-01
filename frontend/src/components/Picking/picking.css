@@ -1,0 +1,49 @@
+
+.header_picking{
+    padding: 2rem 0;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.input_picking{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input_picking p{
+    margin-right: 3rem;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.input_picking select{
+    margin: 1rem 0;
+    font-size: 20px;
+    padding: 0.8rem 5.3rem;
+    outline: none;
+}
+
+.input_picking input{
+    margin: 1rem 0;
+    font-size: 20px;
+    padding: 0.8rem 1rem;
+    outline: none;
+}
+.button_picking{
+    text-align: center;
+}
+.button_picking button{
+    font-size: 18px;
+}
+
+.confirm_picking{
+    margin-top: 0.5rem;
+    display: flex;
+}
+.confirm_picking div{
+    background-color: rgb(51, 162, 241);
+    padding: 0.8rem 1rem;
+    margin: 0 0.2rem;
+    font-size: 18px;
+    font-weight: 700;
+}

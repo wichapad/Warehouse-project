@@ -1,0 +1,42 @@
+
+.header_receive{
+    padding: 2rem 0;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.input_receive{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.input_receive p{
+    margin-right: 3rem;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.input_receive input{
+    margin: 1rem 0;
+    font-size: 20px;
+    padding: 0.8rem 1rem;
+    outline: none;
+}
+.button_receive{
+    text-align: center;
+}
+.button_receive button{
+    font-size: 18px;
+}
+
+.confirm_receive{
+    margin-top: 0.5rem;
+    display: flex;
+}
+.confirm_receive div{
+    background-color: rgb(51, 162, 241);
+    padding: 0.8rem 1rem;
+    margin: 0 0.2rem;
+    font-size: 18px;
+    font-weight: 700;
+}

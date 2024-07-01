@@ -1,0 +1,30 @@
+.contaner_stock{
+    display: flex;
+    justify-content: center;
+}
+/* items stock */
+.items_stock {
+    padding: 2rem 0;
+}
+
+.stock_filter input{
+    margin: 1rem 0;
+    padding: 0.8rem 1rem;
+    width: 80%;
+    outline: none;
+    border-radius: 50px;
+}
+
+.items_stock th {
+    background-color: rgba(81, 226, 255, 1);
+}
+
+.items_stock td {
+    text-align: center;
+}
+
+.items_stock th,
+td {
+    border: 1px solid #ddd;
+    padding: 0.8rem;
+}
