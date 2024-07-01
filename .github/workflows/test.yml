@@ -21,12 +21,12 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install dependencies
-      run: 
+    - name: Install backend dependencies
+      run: |
         cd backend
         npm install
 
-    - name: Run Jest tests
-      run: 
+    - name: Run backend Jest tests
+      run: |
         cd backend
         npm test
