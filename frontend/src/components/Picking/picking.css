@@ -19,7 +19,7 @@
 .input_picking select{
     margin: 1rem 0;
     font-size: 20px;
-    padding: 0.8rem 5.3rem;
+    padding: 0.8rem 2.5rem;
     outline: none;
 }
 
@@ -34,6 +34,12 @@
 }
 .button_picking button{
     font-size: 18px;
+}
+
+.message_picking{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
 }
 
 .confirm_picking{

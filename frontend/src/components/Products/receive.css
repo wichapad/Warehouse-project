@@ -29,6 +29,12 @@
     font-size: 18px;
 }
 
+.message_receive{
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+}
+
 .confirm_receive{
     margin-top: 0.5rem;
     display: flex;

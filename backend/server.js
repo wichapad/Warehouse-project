@@ -33,4 +33,12 @@ app.use(usersRouter);
 const authRouter = require("./routes/auth");
 app.use(authRouter);
 
+// ตัวแปรรับค่าจาก route product
+const productRouter = require('./routes/products');
+app.use(productRouter)
+
+// ตัวแปรรับค่าจาก route inventory
+const inventoryRouter = require('./routes/inventory');
+app.use(inventoryRouter)
+
 module.exports = { app, pool };
