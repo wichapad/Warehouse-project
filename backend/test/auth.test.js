@@ -1,6 +1,5 @@
 const request = require("supertest");
-const app = require("../server");
-const pool = require("../config");
+const { app, pool } = require("../server");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -9,6 +8,18 @@ jest.mock("jsonwebtoken");
 jest.mock("../config");
 
 const { login } = require("../controllers/authController");
+
+let server;
+
+beforeEach(async () => {
+  server = app.listen(5500, () => {
+    console.log("Test server running on port 5500");
+  });
+});
+
+afterEach(async () => {
+  await server.close();
+});
 
 describe("Auth Controll - Login", () => {
   describe("when username and password correct", () => {
@@ -51,18 +62,22 @@ describe("Auth Controll - Login", () => {
       expect(response.body.error).toBe("User not found");
     });
   });
-  describe("When username or password is wrong",()=>{
-    it("should return 401 if password is incorrect", async ()=>{
-      const user = {userid:1 ,username:"testuser",password:"hashedpassowrd"}
+  describe("When username or password is wrong", () => {
+    it("should return 401 if password is incorrect", async () => {
+      const user = {
+        userid: 1,
+        username: "testuser",
+        password: "hashedpassowrd",
+      };
 
-      pool.query.mockResolvedValueOnce({rows:[user]})
-      bcrypt.compare.mockResolvedValueOnce(false)
+      pool.query.mockResolvedValueOnce({ rows: [user] });
+      bcrypt.compare.mockResolvedValueOnce(false);
 
       const response = await request(app)
-      .post("/auth/login")
-      .send({username:"testuser",password:"wrongpassword"})
-      expect(response.status).toBe(401)
-      expect(response.body.error).toBe("Invalid username or password")
-    })
-  })
+        .post("/auth/login")
+        .send({ username: "testuser", password: "wrongpassword" });
+      expect(response.status).toBe(401);
+      expect(response.body.error).toBe("Invalid username or password");
+    });
+  });
 });

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "jest --watchAll"
+    "start": "nodemon startServer.js",
+    "test": "jest --detectOpenHandles"
   },
   "author": "",
   "license": "ISC",
