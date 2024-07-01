@@ -1,6 +1,5 @@
 const request = require("supertest");
-const app = require("../server");
-const pool = require("../config");
+const { app, pool } = require("../server");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -10,18 +9,19 @@ jest.mock("../config");
 
 const { login } = require("../controllers/authController");
 
-describe("Auth Controll - Login", () => {
+let server;
 
-  afterAll(async () => {
-    await new Promise(resolve => setTimeout(() => resolve(), 500)); // เพิ่มเวลาเล็กน้อยเพื่อให้แน่ใจว่าทรัพยากรทั้งหมดปิดตัวลง
-    if (pool && pool.end) {
-      await pool.end();
-    }
-    if (app && app.close) {
-      app.close();
-    }
+beforeEach(async () => {
+  server = app.listen(5500, () => {
+    console.log("Test server running on port 5500");
   });
+});
 
+afterEach(async () => {
+  await server.close();
+});
+
+describe("Auth Controll - Login", () => {
   describe("when username and password correct", () => {
     it("should return 200 and token if login is successful", async () => {
       //mock data สำหรับ user ใน database
