@@ -30,3 +30,13 @@ jobs:
       run: |
         cd backend
         npm test
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Run frontend Jest tests
+      run: |
+        cd frontend
+        npm test
