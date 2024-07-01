@@ -23,7 +23,7 @@ const login = async (req, res) => {
         { userId: user.userid },
         process.env.CLIENT_JWT_SECRET,
         {
-          expiresIn: "1m",
+          expiresIn: "1h",
         }
       );
       res.status(200).json({
