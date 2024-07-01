@@ -10,7 +10,7 @@ const Inventory = () => {
       {/* items stock */}
       <div className="items_stock">
         <div>
-          <h1>Stock</h1>
+          <h1>inventory</h1>
         </div>
         <div className="stock_filter">
           <input type="text" placeholder="Search products..." />

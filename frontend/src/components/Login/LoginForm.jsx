@@ -23,7 +23,7 @@ const LoginForm = ({ onLogin, errorMessage }) => { // รับ props มาจ�
       <form className="input_form" onSubmit={handleSubmit}>
         <div>
           <div className="input_form_header">
-            <p>Username</p>
+            <label htmlFor="username">Username</label>
           </div>
           <input
             type="text"
@@ -33,7 +33,7 @@ const LoginForm = ({ onLogin, errorMessage }) => { // รับ props มาจ�
         </div>
         <div>
           <div className="input_form_header">
-            <p>Password</p>
+            <label htmlFor="password">Password</label>
           </div>
 
           <input

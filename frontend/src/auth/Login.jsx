@@ -24,9 +24,9 @@ const Login = () => {
       const { token, user } = response.data;
       // เก็บ token ลงใน session storage
       setToken(token, user.username);
-      console.log(token);
-      console.log(user);
-      console.log(response);
+      // console.log(token);
+      // console.log(user);
+      // console.log(response);
       //เมื่อกด login จะ route ไปยัง หน้า inventory
       navigate("/inventory");
     } catch (error) {
