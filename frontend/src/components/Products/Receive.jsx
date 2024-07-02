@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { fetchProduct } from "../../utility/apiService";
 import "../Inventory/inventory.css";
 import "./receive.css";
 
@@ -9,6 +10,11 @@ const Receive = () => {
   const [reciveedProduct, setReceivedProduct] = useState(null);
   const [responseMessage, setResponseMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(true);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProduct(setProducts);
+  }, []);
 
   // function event สำหรับ product_name
   const handleProductName = (e) => {
@@ -20,7 +26,15 @@ const Receive = () => {
     setQuantity(e.target.value);
   };
 
-  // post add-product
+  // function ตรวจสอบว่ามีสินค้าใน database ไหม
+  const checkProductExiststs = (productName) => {
+    const product = products.find(
+      (item) => item.product_name.toLowerCase() === productName.toLowerCase()
+    );
+    return product ? product.product_id : null;
+  };
+
+  // post add-product or update-product
   const handleSubmit = async () => {
     // ถ้า productname และ qauntity เป็นค่าว่าง จะขึ้น errormessage
     if (!productName || quantity <= 0) {
@@ -30,25 +44,52 @@ const Receive = () => {
       setIsSuccess(false);
       return;
     }
-    // response ข้อมูลด้วย POST ส่งข้อมูลไป database
-    try {
-      const response = await axios.post("http://localhost:5500/add-product", {
-        product_name: productName,
-        quantity: parseInt(quantity, 10),
-      });
-      // ส่งข้อมูลไปยัง ช่อง แสดงสถานะว่ามีการรับเข้าสำเร็จหลังกด confirm
-      setReceivedProduct({
-        productName,
-        quantity: parseInt(quantity, 10),
-      });
-      // message แสดงสถานะว่ามีการรับเข้าสำเร็จ
-      setResponseMessage("Finish receive the product");
-      setIsSuccess(true);
-    } catch (error) {
-      setReceivedProduct(null);
-      // message แสดงสถานะว่าเชื่อมต่อกับ database ไม่ได้
-      setResponseMessage("error product");
-      setIsSuccess(false);
+
+    //ตรวจสอบว่ามีสินค้าใน database ไหม
+    const productId = checkProductExiststs(productName);
+
+    if (productId) {
+      try {
+        const response = await axios.put("http://localhost:5500/update-product", {
+          product_name: productName,
+          quantity: parseInt(quantity, 10),
+        });
+
+        // ส่งข้อมูลไปยัง ช่อง แสดงสถานะว่ามีการรับเข้าสำเร็จหลังกด confirm
+        setReceivedProduct({
+          productName,
+          quantity: parseInt(quantity, 10),
+        });
+        // message แสดงสถานะว่ามีการรับเข้าสำเร็จ
+        setResponseMessage("Finish update the product");
+        setIsSuccess(true);
+      } catch (error) {
+        setReceivedProduct(null);
+        // message แสดงสถานะว่าเชื่อมต่อกับ database ไม่ได้
+        setResponseMessage("error update product");
+        setIsSuccess(false);
+      }
+    } else {
+      // response ข้อมูลด้วย POST ส่งข้อมูลไป database
+      try {
+        const response = await axios.post("http://localhost:5500/add-product", {
+          product_name: productName,
+          quantity: parseInt(quantity, 10),
+        });
+        // ส่งข้อมูลไปยัง ช่อง แสดงสถานะว่ามีการรับเข้าสำเร็จหลังกด confirm
+        setReceivedProduct({
+          productName,
+          quantity: parseInt(quantity, 10),
+        });
+        // message แสดงสถานะว่ามีการรับเข้าสำเร็จ
+        setResponseMessage("Finish receive the product");
+        setIsSuccess(true);
+      } catch (error) {
+        setReceivedProduct(null);
+        // message แสดงสถานะว่าเชื่อมต่อกับ database ไม่ได้
+        setResponseMessage("error product");
+        setIsSuccess(false);
+      }
     }
   };
 
