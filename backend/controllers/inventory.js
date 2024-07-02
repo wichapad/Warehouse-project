@@ -23,7 +23,7 @@ const withdrawProduct = async (req, res) => {
 
     // select ข้อมูล inventory จาก database
     const result = await pool.query(
-      `SELECT quantity FROM inventory WHERE product_id =$1 AND status ='in'`,
+      `SELECT quantity FROM inventory WHERE product_id =$1 AND status ='in' FOR UPDATE`,
       [product_id]
     );
     // ถ้าไม่มีสินค้านี้ใน datbase
@@ -31,27 +31,48 @@ const withdrawProduct = async (req, res) => {
       throw new Error("Product not found");
     }
 
-    const currentQuantity = result.rows[0].quantity;
-
     // ปริมาณที่จะลบไม่พอแล้ว จะต่ำกว่า 0 ไม่ได้
+    let currentQuantity = 0;
+    for (const row of result.rows) {
+      currentQuantity += row.quantity;
+    }
     if (currentQuantity < quantity) {
       throw new Error("Insufficient quantity");
     }
+
     // ตัวแปร ค่าใหม่ของ quantity โดย จำนวนปัจจุบัน - จำนวนที่ใส่
-    const newQuantity = currentQuantity - quantity;
+    let remainingQuantity = quantity;
+    for (const row of result.rows) {
+      const rowQuantity = row.quantity;
+      const newQuantity = rowQuantity - remainingQuantity;
 
-    // update ข้อมูล
-    await pool.query(
-      `UPDATE inventory SET quantity =$1, last_update = NOW(), status ='out' WHERE product_id =$2 AND status='in'`,
-      [newQuantity, product_id]
-    );
+      if (newQuantity <= 0) {
+        // update ข้อมูล
+        await pool.query(
+          `UPDATE inventory SET quantity = 0, last_update = NOW(), status ='out' WHERE product_id =$1 AND quantity = $2 AND status='in'`,
+          [product_id, rowQuantity]
+        );
+        remainingQuantity = Math.abs(newQuantity)
+      } else {
+        await pool.query(
+          `UPDATE inventory SET quantity = $1, last_update = NOW() WHERE product_id =$2 AND quantity = $3 AND status='in'`,
+          [newQuantity,product_id,rowQuantity]
+        );
+        remainingQuantity = 0;
+      }
+      if (remainingQuantity <= 0) {
+        break;
+      }
+    }
 
-    await pool.query("COMMIT")
-    res.status(200).json({success:true,message:"Product withdrawn successfully"})
+    await pool.query("COMMIT");
+    res
+      .status(200)
+      .json({ success: true, message: "Product withdrawn successfully" });
   } catch (error) {
-    await pool.query("ROLLBACK")
+    await pool.query("ROLLBACK");
     res.status(500).json({ success: false, error: error.message });
   }
 };
 
-module.exports = { getInventory,withdrawProduct };
+module.exports = { getInventory, withdrawProduct };

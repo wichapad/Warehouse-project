@@ -124,7 +124,7 @@ const Picking = () => {
           {/* หัวเรื่อง items เบิกออกสำเร็จ */}
           <div className="confirm_picking">
             <div>
-              <p>SKU</p>
+              <p>Product</p>
             </div>
             <div style={{ width: "100%", textAlign: "left" }}>
               <p>Quantity</p>
