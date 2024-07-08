@@ -1,7 +1,8 @@
 import React from "react";
 import "./sidebar.css";
+import Swal from "sweetalert2";
 import { removeToken } from "../../auth/Services/Autherize";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
   const username = sessionStorage.getItem("user_session_user");
@@ -9,8 +10,20 @@ const Sidebar = () => {
   const navigate = useNavigate();
   //function ปุ่ม logout
   const handleLogout = () => {
-    removeToken();
-    navigate("/login");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logged out of your account",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "red",
+      confirmButtonText: "Yes, log out",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        removeToken();
+        navigate("/login");
+      }
+    });
   };
 
   const handleRecive = () => {

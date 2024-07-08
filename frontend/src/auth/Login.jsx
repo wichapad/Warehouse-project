@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import LoginForm from "../components/Login/LoginForm";
+import Swal from "sweetalert2";
 import { setToken } from "./Services/Autherize";
 import { useNavigate } from "react-router-dom";
 
@@ -24,11 +25,16 @@ const Login = () => {
       const { token, user } = response.data;
       // เก็บ token ลงใน session storage
       setToken(token, user.username);
-      // console.log(token);
-      // console.log(user);
-      // console.log(response);
-      //เมื่อกด login จะ route ไปยัง หน้า inventory
-      navigate("/inventory");
+      Swal.fire({
+        title: "Success!",
+        text: "Logged in successfully.",
+        icon: "success",
+        timer: 1000,
+        showConfirmButton: false,
+      }).then(() => {
+        //เมื่อกด login จะ route ไปยัง หน้า inventory
+        navigate("/inventory");
+      });
     } catch (error) {
       // error ว่าไม่มี user นี้ใน database
       if (error.response && error.response.status === 404) {
